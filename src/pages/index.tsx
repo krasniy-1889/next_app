@@ -5,18 +5,13 @@ import type { GetServerSideProps } from 'next';
 import React from 'react';
 import { PostCard } from '@/components/Card';
 import { HomeProps, IPost } from '@/types/posts/post.type';
-import { Grid, SimpleGrid } from '@mantine/core';
-import { useGetRootQuery } from '@/store/api/api';
-import { wrapper } from '@/store/store';
-import { useGetPostsQuery } from '@/store/api/posts.api';
-import { useSelector } from 'react-redux';
-import { useSession } from 'next-auth/react';
+import { Grid, SimpleGrid, rem } from '@mantine/core';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch('http://127.0.0.1:8000/posts');
-  const posts = await res.json();
+  const posts: IPost[] = await res.json();
   return {
     props: {
       posts,
@@ -57,6 +52,18 @@ const Home = ({ posts }: HomeProps) => {
             },
           ]}
         >
+          {posts.map((post) => (
+            <div>
+              {post.title}
+              {post.comments &&
+                post.comments.map((comment) => (
+                  <div>
+                    <div>{comment.user.username}</div>
+                    <p>{comment.content}</p>
+                  </div>
+                ))}
+            </div>
+          ))}
           {posts.map((post) => (
             <PostCard post={post} key={post.id} />
           ))}

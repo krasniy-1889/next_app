@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { Provider } from 'react-redux';
 import { store, wrapper } from '@/store/store';
-import { createWrapper } from 'next-redux-wrapper';
 import React from 'react';
 import { SessionProvider } from 'next-auth/react';
 
